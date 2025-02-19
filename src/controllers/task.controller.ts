@@ -14,6 +14,23 @@ export async function getTasks(
   }
 }
 
+export async function getTaskById(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const taskId = req.params.id;
+    const task = await taskService.getTaskById(taskId);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    res.status(200).json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function createTask(
   req: Request,
   res: Response,
@@ -39,7 +56,6 @@ export async function updateTask(
     next(error);
   }
 }
-
 
 export async function deleteTask(
   req: Request,
